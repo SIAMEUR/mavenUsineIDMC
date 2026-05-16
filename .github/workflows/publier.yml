@@ -19,12 +19,28 @@ jobs:
         with:
           java-version: '24'
           distribution: 'temurin'
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
 
-      - name: Publish
-        run: mvn deploy
+      - name: Configurer settings.xml
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << 'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>github-bernard</id>
+                <username>le-prof-de-raizo</username>
+                <password>${{ secrets.PROF_TOKEN }}</password>
+              </server>
+              <server>
+                <id>github</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: publier
+        run: mvn --batch-mode deploy -DskipTests
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
