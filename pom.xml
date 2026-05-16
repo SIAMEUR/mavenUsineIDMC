@@ -45,6 +45,7 @@
             <groupId>bernard-flou</groupId>
             <artifactId>fabricateur</artifactId>
             <version>0.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
